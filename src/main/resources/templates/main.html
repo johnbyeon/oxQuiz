@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>퀴즈 메인 메뉴</title>
+    <style>
+        body {
+            font-family: 'sans-serif';
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .menu-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .menu-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        li a {
+            display: block;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        li a:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            .menu-container {
+                padding: 20px;
+            }
+
+            .menu-container h2 {
+                font-size: 20px;
+            }
+
+            li a {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:unless="${session.loginId} == null">
+    ssasion값 확인 : <span>[[${session.loginId}]]</span>
+</div>
+<div class="menu-container">
+    <h2>퀴즈 메뉴</h2>
+    <ul>
+        <div th:if="${session.loginId} == null">
+            <li><a th:href="@{/user/login}">로그인</a></li>
+            <li><a th:href="@{/user/signup}">회원 가입</a></li>
+        </div>
+        <div th:if = "${session.loginId} == 'root'">
+            <li><a thLhref="@{/user/list}">유저 리스트</a></li>
+            <li><a th:href="@{/quiz/insert}">퀴즈 추가</a></li>
+            <li><a th:href="@{/quiz}">퀴즈 목록</a></li>
+        </div>
+        <li><a th:href="@{/quiz/}">퀴즈 풀기</a></li>
+    </ul>
+</div>
+</body>
+</html>

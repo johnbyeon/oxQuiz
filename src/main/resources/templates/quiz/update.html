@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th = "https://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>퀴즈 수정</title>
+</head>
+<style>
+    body {
+            font-family: 'sans-serif';
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .main-container{
+        width: 500px
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .form-group textarea {
+            width: 96%;
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            vertical-align: top;
+        }
+
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    .go-main-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            margin-left: 60px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-container h2 {
+                font-size: 20px;
+            }
+
+            .back-link {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+</style>
+<body>
+<div class="main-container">
+    <div class="form-container">
+        <h2>문제 추가하기</h2>
+        <form th:action="@{/quiz/update}" method="post" th:object="${dto}">
+
+            <div class="form-group">
+                <label for="question">문제</label>
+                <textarea id="question" th:field="*{question}" placeholder="문제를 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label>정답</label>
+                <div class="radio-group">
+                    <label for="answer_true">
+                        <input type="radio" id="answer_true" value="true" th:field="*{answer}">
+                        O (맞다)
+                    </label>
+                    <label for="answer_false">
+                        <input type="radio" id="answer_false" value="false" th:field="*{answer}">
+                        X (아니다)
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">수정 하기</button>
+            <input type="hidden" name="id" th:value="*{id}">
+        </form>
+    </div>
+    <div class="go-main-container">
+        <a th:href="@{/}" class="back-link">메인으로 돌아가기</a>
+    </div>
+</div>
+</body>
+</html>
