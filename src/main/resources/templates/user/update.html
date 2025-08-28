@@ -1,77 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>회원 정보 수정</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>회원 정보 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
+          rel="stylesheet">
 </head>
-
+<style>
+    body {
+      font-family: 'Nanum Gothic', sans-serif;
+    }
+</style>
 <body>
-  <!-- 상단 네비게이션바 -->
-  <div th:replace="~{fragments/navbar :: navbar}"></div>
-  <div>
-  <!-- 회원가입 폼 -->
-<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-  <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">회원 정보 수정</h1>
-  <form action="/user/updateUser" method="post" th:object="${userDto}" class="space-y-4" onsubmit="return PasswordCheck()">
-    
-    <div class="d-flex justify-content-center align-items-center">
-      <label for="user-id" class="block text-sm font-medium text-gray-700">아이디</label>
-      <input type="text" id="user-id" th:field="*{userId}"
-             class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
-      <input type="hidden" id="user-id" th:field="*{userId}">
-      <div th:if="${#fields.hasErrors('userId')}" class="text-red-500 text-sm mt-1" th:errors="*{userId}"></div>
-    </div>
+<!-- 상단 네비게이션바 -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div>
+    <!-- 회원가입 폼 -->
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">회원 정보 수정</h1>
+        <form th:action="@{/user/updateUser}" method="post" th:object="${userDto}" class="space-y-4"
+              onsubmit="return PasswordCheck()">
 
-    <div>
-      <label for="password" class="block text-sm font-medium text-gray-700">비밀번호</label>
-      <input type="password" id="password"
-             class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <input type="hidden" id="password1" th:field="*{password}">
-      <div th:if="${#fields.hasErrors('password')}" class="text-red-500 text-sm mt-1"
-           th:errors="*{password}"></div>
-    </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <label for="user-id" class="block text-sm font-medium text-gray-700">아이디</label>
+                <input type="text" id="user-id" th:field="*{userId}"
+                       class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       disabled>
+                <input type="hidden" id="user-id" th:field="*{userId}">
+                <div th:if="${#fields.hasErrors('userId')}" class="text-red-500 text-sm mt-1"
+                     th:errors="*{userId}"></div>
+            </div>
 
-    <div>
-      <label for="nick-name" class="block text-sm font-medium text-gray-700">닉네임</label>
-      <input type="text" id="nick-name" th:field="*{nickName}"
-             class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <div th:if="${#fields.hasErrors('nickName')}" class="text-red-500 text-sm mt-1"
-           th:errors="*{nickName}"></div>
-    </div>
-    <div th:if="${session.loginId == 'root' && userDto.userId != 'root'}">
-      <label>퀴즈 권한 부여</label>
-      <div class="radio-group">
-        <label for="status_true">
-          <input type="radio" id="status_true" value="true" th:field="*{userStatus}">
-          권한주기
-        </label>
-        <label for="status_false">
-          <input type="radio" id="status_false" value="false" th:field="*{userStatus}">
-          권한 없애기
-        </label>
-      </div>
-    </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">비밀번호</label>
+                <input type="password" id="password"
+                       class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="hidden" id="password1" th:field="*{password}">
+                <div th:if="${#fields.hasErrors('password')}" class="text-red-500 text-sm mt-1"
+                     th:errors="*{password}"></div>
+            </div>
 
-    <div>
-      <input type="submit" value="수정하기"
-             class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200">
+            <div>
+                <label for="nick-name" class="block text-sm font-medium text-gray-700">닉네임</label>
+                <input type="text" id="nick-name" th:field="*{nickName}"
+                       class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div th:if="${#fields.hasErrors('nickName')}" class="text-red-500 text-sm mt-1"
+                     th:errors="*{nickName}"></div>
+            </div>
+            <div th:if="${session.loginId == 'root' && userDto.userId != 'root'}">
+                <label>퀴즈 권한 부여</label>
+                <div class="radio-group">
+                    <label for="status_true">
+                        <input type="radio" id="status_true" value="true" th:field="*{userStatus}">
+                        권한주기
+                    </label>
+                    <label for="status_false">
+                        <input type="radio" id="status_false" value="false" th:field="*{userStatus}">
+                        권한 없애기
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" value="수정하기"
+                       class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-200">
+            </div>
+        </form>
     </div>
-  </form>
-</div>
 </div>
 <script>
-  function PasswordCheck() {
-    const password = document.getElementById("password").value;
-    const hiddenPassword = document.getElementById("password1");
-    if (password.length > 0) {
-      hiddenPassword.value = password;
-       console.log("데이터바꿈" + password);
+    function PasswordCheck() {
+      const password = document.getElementById("password").value;
+      const hiddenPassword = document.getElementById("password1");
+      if (password.length > 0) {
+        hiddenPassword.value = password;
+         console.log("데이터바꿈" + password);
+      }
+     console.log("데이터안바꿈");
+    return true;
     }
-   console.log("데이터안바꿈");
-  return true;
-}
 </script>
 </body>
 </html>

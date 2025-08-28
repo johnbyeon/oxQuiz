@@ -43,6 +43,7 @@ public class QuizController {
         String userId = (String) session.getAttribute("loginId");
         UserDto uesrDto = userService.findUser(userId);
         quizDto.setWriter(uesrDto.getNickName());
+        model.addAttribute("successMessage", "");
         model.addAttribute("dto", quizDto);
         return "/quiz/insert";
     }
@@ -159,6 +160,7 @@ public class QuizController {
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("에러남");
+            System.out.println(dto);
             return "/quiz/update";
         }
         System.out.println(dto);

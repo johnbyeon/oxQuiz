@@ -2,6 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <style>
         .navbar-brand {
@@ -25,20 +28,30 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- 로그인한 사용자에게만 표시 -->
                     <li class="nav-item" th:if="${session.loginId != null}">
-                        <a class="nav-link" th:href="@{/quiz/play}">문제풀기</a>
+                        <a class="nav-link" th:href="@{/quiz/play}">
+                            <i class="fa-solid fa-circle-question"></i>
+                            퀴즈 풀기</a>
                     </li>
                     <li class="nav-item" th:if="${session.loginId != null}">
-                        <a class="nav-link" th:href="@{/quiz/history}">문제히스토리</a>
+                        <a class="nav-link" th:href="@{/quiz/history}">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            기록보기</a>
                     </li>
                     <li class="nav-item" th:if="${session.loginId != null}">
-                        <a class="nav-link" th:href="@{/quiz}">문제리스트</a>
+                        <a class="nav-link" th:href="@{/quiz}">
+                            <i class="fa-solid fa-table-list"></i>
+                            퀴즈 목록</a>
                     </li>
                     <li class="nav-item" th:if="${session.loginId != null}">
-                        <a class="nav-link" th:href="@{/quiz/insert}">문제내기</a>
+                        <a class="nav-link" th:href="@{/quiz/insert}">
+                            <i class="fa-solid fa-file-circle-plus"></i>
+                            퀴즈 추가</a>
                     </li>
                     <!-- 관리자(root)에게만 표시 -->
                     <li class="nav-item" th:if="${session.loginId == 'root'}">
-                        <a class="nav-link" th:href="@{/user/list}">유저리스트</a>
+                        <a class="nav-link" th:href="@{/user/list}">
+                            <i class="fa-solid fa-address-book"></i>
+                            유저리스트</a>
                     </li>
                 </ul>
                 <!-- 로그인/로그아웃 -->
@@ -47,13 +60,19 @@
                         <span class="nav-link" th:text="${session.nickName} + ' 님'"></span>
                     </li>
                     <li class="nav-item" th:if="${session.loginId != null}">
-                        <a class="nav-link" th:href="@{/user/logout}">로그아웃</a>
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            로그아웃</a>
                     </li>
                     <li class="nav-item" th:if="${session.loginId == null}">
-                        <a class="nav-link" th:href="@{/user/login}">로그인</a>
+                        <a class="nav-link" th:href="@{/user/login}">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            로그인</a>
                     </li>
                     <li class="nav-item" th:if="${session.loginId == null}">
-                        <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+                        <a class="nav-link" th:href="@{/user/signup}">
+                            <i class="fa-solid fa-user-plus"></i>
+                            회원가입</a>
                     </li>
                 </ul>
             </div>
