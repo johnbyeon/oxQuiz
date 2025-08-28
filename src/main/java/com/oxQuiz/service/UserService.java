@@ -2,7 +2,7 @@ package com.oxQuiz.service;
 
 
 import com.oxQuiz.dto.UserDto;
-import com.oxQuiz.entity.UserEntitiy;
+import com.oxQuiz.entity.UserEntity;
 import com.oxQuiz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,17 +21,17 @@ public class UserService {
                 .toList();
     }
     public void insertUser(UserDto dto) {
-        UserEntitiy entity = UserDto.toDto(dto);
+        UserEntity entity = UserDto.toDto(dto);
         userRepository.save(entity);
     }
 
     public void updateUser(UserDto dto) {
-        UserEntitiy entity = UserDto.toDto(dto);
+        UserEntity entity = UserDto.toDto(dto);
         userRepository.save(entity);
     }
 
     public UserDto findUser(String UserId) {
-        UserEntitiy entity = userRepository.findById(UserId).orElse(null);
+        UserEntity entity = userRepository.findById(UserId).orElse(null);
         if(ObjectUtils.isEmpty(entity)){
             return null;
         }
@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public void deleteUser(String UserId) {
-        UserEntitiy Entity = userRepository.findById(UserId).orElse(null);
+        UserEntity Entity = userRepository.findById(UserId).orElse(null);
         if(!ObjectUtils.isEmpty(Entity)){
             userRepository.delete(Entity);
         }

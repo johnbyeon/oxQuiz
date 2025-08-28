@@ -3,29 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>퀴즈 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
-            background-color: #f3f4f6;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            background-color: #f8f9fa;
         }
-        .container {
-            background-color: white;
-            padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
+        .quiz-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
-        h1 {
-            font-size: 1.5rem;
-            color: #1f2937;
-            margin-bottom: 16px;
-            text-align: center;
+        .table-container {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
         }
         table {
             width: 100%;
@@ -45,82 +38,100 @@
         tr:hover {
             background-color: #f9fafb;
         }
-        .no-data {
-            text-align: center;
-            color: #6b7280;
-        }
-        a, input[type="submit"] {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 4px;
+        .btn-back, .btn-add {
+            width: 200px;
+            height: 60px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 4px solid #007bff;
+            color: #007bff;
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
-            cursor: pointer;
-            font-size: 0.875rem;
+            margin-right: 10px;
         }
-        a.edit {
-            background-color: #3b82f6;
-            color: white;
-        }
-        a.edit:hover {
-            background-color: #2563eb;
-        }
-        input[type="submit"] {
-            background-color: #ef4444;
-            color: white;
-            border: none;
-        }
-        input[type="submit"]:hover {
-            background-color: #dc2626;
+        .btn-back:hover, .btn-add:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .links {
             text-align: center;
+            margin-top: 2rem;
         }
-        .links a {
-            color: #3b82f6;
-            margin: 0 8px;
+        .edit, .delete-btn {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
         }
-        .links a:hover {
-            text-decoration: underline;
+        .edit:hover, .delete-btn:hover {
+            color: #0056b3;
+        }
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>퀴즈 목록</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>문제</th>
-            <th>정답</th>
-            <th>수정</th>
-            <th>삭제</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${questionList == null or questionList.isEmpty()}">
-            <td colspan="5" class="no-data">데이터가 없습니다.</td>
-        </tr>
-        <tr th:each="question : ${questionList}" th:object="${question}">
-            <td th:text="*{id}"></td>
-            <td th:text="*{question}"></td>
-            <td th:text="*{answer} ? 'O' : 'X'"></td>
-            <td>
-                <a th:href="@{/quiz/{id}(id=${question.id})}" class="edit">수정</a>
-            </td>
-            <td>
-                <form th:action="@{/quiz/delete}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
-                    <input type="submit" value="삭제">
-                    <input type="hidden" name="id" th:value="*{id}">
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!-- 상단 네비게이션바 -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="quiz-container">
+    <!-- 타이틀 -->
+    <div class="mb-4 text-center">
+        <h1 class="fw-bold text-primary">퀴즈 목록 <span class="text-dark">VIEW</span></h1>
+    </div>
+
+    <!-- 테이블 카드 -->
+    <div class="table-container p-4">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>문제</th>
+                <th>정답</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${questionList == null or questionList.isEmpty()}">
+                <td colspan="5" class="no-data">데이터가 없습니다.</td>
+            </tr>
+            <tr th:each="question : ${questionList}" th:object="${question}">
+                <td th:text="*{id}"></td>
+                <td th:text="*{question}"></td>
+                <td th:text="*{answer} ? 'O' : 'X'"></td>
+                <td>
+                    <a th:href="@{/quiz/{id}(id=${question.id})}" class="edit">수정</a>
+                </td>
+                <td>
+                    <form th:action="@{/quiz/delete}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                        <input type="submit" value="삭제" class="delete-btn">
+                        <input type="hidden" name="id" th:value="*{id}">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 버튼 -->
     <div class="links">
-        <a th:href="@{/}">메인화면</a>
-        <a th:href="@{/quiz/new}">새 퀴즈 추가</a>
+        <a th:href="@{/}" class="btn btn-back">
+            <i class="fa-solid fa-arrow-left me-2"></i> 메인으로 돌아가기
+        </a>
+        <a th:href="@{/quiz/insert}" class="btn btn-add">
+            <i class="fa-solid fa-plus me-2"></i> 새 퀴즈 추가
+        </a>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
 </html>

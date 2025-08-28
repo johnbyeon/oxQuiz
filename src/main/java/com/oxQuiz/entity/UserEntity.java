@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntitiy implements UserInitialize {
+public class UserEntity implements UserInitialize {
     @Id
     @Column(length = ID_SIZE, nullable = false)
     private String userId;

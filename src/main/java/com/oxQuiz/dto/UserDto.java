@@ -2,7 +2,7 @@ package com.oxQuiz.dto;
 
 import com.oxQuiz.config.MessageInitialize;
 import com.oxQuiz.config.UserInitialize;
-import com.oxQuiz.entity.UserEntitiy;
+import com.oxQuiz.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,7 +28,7 @@ public class UserDto implements UserInitialize, MessageInitialize {
 
     private Boolean userStatus;
 
-    public static UserDto fromEntity(UserEntitiy entity) {
+    public static UserDto fromEntity(UserEntity entity) {
         return new UserDto(
                 entity.getUserId(),
                 entity.getPassword(),
@@ -38,8 +38,8 @@ public class UserDto implements UserInitialize, MessageInitialize {
     }
 
     // DTO를 받아서 Entity에 넣는 작업
-    public static UserEntitiy toDto(UserDto dto) {
-        UserEntitiy entity = new UserEntitiy();
+    public static UserEntity toDto(UserDto dto) {
+        UserEntity entity = new UserEntity();
         entity.setUserId(dto.getUserId());
         entity.setPassword(dto.getPassword());
         entity.setNickName(dto.getNickName());

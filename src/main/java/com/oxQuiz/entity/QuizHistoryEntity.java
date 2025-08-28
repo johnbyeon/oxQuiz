@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -19,9 +20,15 @@ public class QuizHistoryEntity implements UserInitialize {
     @Column(length = ID_SIZE, nullable = false)
     private String userId;
     @NotNull
+    private Long questionId;
+    @NotNull
     @Column(nullable = false)
-    private Long quizID;
+    private String question;
+    @NotNull
+    private Boolean answer;
     @NotNull
     @Column(nullable = false)
     private Boolean isCorrect;
+    @NotNull
+    private Timestamp quizTime;
 }

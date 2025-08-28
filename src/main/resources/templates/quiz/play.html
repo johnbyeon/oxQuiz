@@ -1,15 +1,115 @@
 <!DOCTYPE html>
-<html xmlns:th = "https://www.thymeleaf.org" lang="ko">
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>퀴즈 풀기</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+
+       .main-content {
+           max-width: 580px;
+           margin: 4rem auto;
+           padding: 2rem;
+           background-color: #ffffff;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+       }
+       .btn-custom {
+           width: 120px;
+           height: 120px;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-size: 2.5rem;
+           font-weight: bold;
+           background-color: white;
+           transition: transform 0.2s, box-shadow 0.2s;
+       }
+       .btn-custom-border {
+           border-width: 15px; /* 테두리 두께를 15px로 설정 */
+       }
+       .btn-custom-o {
+           border-color: #007bff; /* 파란색 테두리 */
+           color: #007bff;
+           font-size : 40px;
+           font-weight : 400;
+       }
+       .btn-custom-x {
+           border-color: #ffc107; /* 노란색 테두리 */
+           color: #ffc107;
+           font-size : 40px;
+           font-weight : 400;
+       }
+       .btn-custom-o:hover {
+           transform: scale(1.1);
+           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+           border-color: rgb(33, 155, 255);
+           color : rgb(33, 155, 255);
+       }
+       .btn-custom-x:hover {
+           transform: scale(1.1);
+           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+           border-color: rgb(255, 220, 28);
+           color: rgb(255, 220, 28);
+       }
+
+       .btn-container {
+           margin-top: 1.5rem;
+       }
+    </style>
 </head>
-<body>
-  <ul>
-    <li>
+<body class="bg-light">
+  <!-- 상단 네비게이션바 -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    </li>
+  <!-- 메인 컨텐츠 -->
+<div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center">
+    <!-- 타이틀 -->
+    <div class="mb-4 text-center">
+        <h1 class="fw-bold text-primary">OX 퀴즈 게임 <span class="text-dark">PLAY</span></h1>
+    </div>
 
-  </ul>
+    <!-- 퀴즈 카드 -->
+    <div class="card shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%;">
+        <div class="card-body p-4" th:object="${quiz}">
+            <h5 class="card-title mb-3">퀴즈</h5>
+
+            <!-- 문제 없을 때 -->
+            <div th:if="${quiz} == null" class="alert alert-warning text-center rounded-3">
+                풀 수 있는 문제가 없습니다.
+            </div>
+
+            <!-- 문제 있을 때 -->
+            <div th:unless="${quiz} == null">
+                <h5 class="mb-4 text-center fw-semibold" th:text="*{question}"></h5>
+                <!-- 버튼 컨테이너 -->
+                <div class="btn-container d-flex justify-content-around">
+                    <!-- O 버튼 -->
+                    <form th:action="@{/quiz/check}" method="post">
+                        <input type="hidden" name="answer" th:value="true">
+                        <input type="hidden" name="id" th:value="*{id}">
+                        <button type="submit" class="btn btn-custom btn-custom-o btn-custom-border">
+                            <i class="fa-solid fa-o"></i>
+                        </button>
+                    </form>
+                    <!-- X 버튼 -->
+                    <form th:action="@{/quiz/check}" method="post">
+                        <input type="hidden" name="answer" th:value="false">
+                        <input type="hidden" name="id" th:value="*{id}">
+                        <button type="submit" class="btn btn-custom btn-custom-x btn-custom-border">
+                            <i class="fa-solid fa-x"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
 </html>
